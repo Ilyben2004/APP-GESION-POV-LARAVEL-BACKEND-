@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApplianceController;
-use App\Http\Controllers\TypeController
+use App\Http\Controllers\TypeController;
+use App\Http\Controllers\ContactController
+
 ;
 
 
@@ -20,6 +22,8 @@ use App\Http\Controllers\TypeController
 
 Route::resource('appliance',ApplianceController::class);
 Route::resource('type',TypeController::class);
+Route::resource('contact',ContactController::class);
+
 Route::get('appliance/{userId}/type', [ApplianceController::class, 'getApplianceType']);
 
 

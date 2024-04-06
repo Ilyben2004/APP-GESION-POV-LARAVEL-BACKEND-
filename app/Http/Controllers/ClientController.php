@@ -59,6 +59,18 @@ class ClientController extends Controller
             'message' => 'client deleted successfully'
         ]);
         }
+        public function getClientContact($clientId)
+        {
+            $client = Client::findOrFail($clientId);
+
+    
+            if ($client) {
+                $contact = $client->contact;
+                return response()->json(['contact' => $contact]);
+            }
+    
+            return response()->json(['error' => $client]);
+        }
 
     //
 }
