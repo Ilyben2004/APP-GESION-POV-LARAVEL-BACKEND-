@@ -10,7 +10,7 @@ class ApplianceController extends Controller
 {
     public function index()
     {
-        return Appliance::select('id', 'libelle',	'type',	'DBID','disponible','references')->get();
+        return Appliance::select('id', 'libelle',	'DBID','disponible','references','type_id')->get();
     }
    
 
@@ -18,11 +18,11 @@ class ApplianceController extends Controller
     {
         $request->validate([
             'libelle'=>'required',
-            'type' => 'required',
-            'libelle'=>'required',
             'DBID' => 'required',
             'disponible' => 'required',
-            'references' => 'required'
+            'references' => 'required',
+            'type_id' => 'required',
+
 
         ]);
 
@@ -44,14 +44,13 @@ class ApplianceController extends Controller
     {
         $request->validate([
             'libelle'=>'required',
-            'type' => 'required',
-            'libelle'=>'required',
             'DBID' => 'required',
             'disponible' => 'required',
-            'references' => 'required'
+            'references' => 'required',
+            'type_id' => 'required',
+
 
         ]);
-
         $appliance->fill($request->post())->update();
 
 
