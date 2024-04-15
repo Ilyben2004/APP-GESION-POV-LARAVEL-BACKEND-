@@ -12,7 +12,7 @@ class Client extends Model
     protected $fillable=["libelle","secteur","activite"];
     public function contact()
     {
-        return $this->belongsTo(Contact::class, 'id_client');
+        return $this->hasOne(Contact::class,'id_client');
     }
     use HasFactory;
 }

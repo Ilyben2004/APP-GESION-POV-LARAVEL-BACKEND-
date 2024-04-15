@@ -10,8 +10,8 @@ class Contact extends Model
     protected  $table = "contacts";
     protected $primarykey="id";
     protected $fillable=["nom","prenom","telephone","fonction","id_client","email"];
-   
-
     
+
+   
     use HasFactory;
 }

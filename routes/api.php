@@ -4,7 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApplianceController;
 use App\Http\Controllers\TypeController;
-use App\Http\Controllers\ContactController
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\PovController;
+
 
 ;
 
@@ -23,8 +26,19 @@ use App\Http\Controllers\ContactController
 Route::resource('appliance',ApplianceController::class);
 Route::resource('type',TypeController::class);
 Route::resource('contact',ContactController::class);
+Route::resource('client',ClientController::class);
+Route::resource('pov',PovController::class);
+
+Route::get('pov/{povId}/client', [PovController::class, 'getClient']);
+
+
 
 Route::get('appliance/{userId}/type', [ApplianceController::class, 'getApplianceType']);
+Route::get('Client/{clientId}/Contact', [ClientController::class, 'getClientContact']);
+Route::get('pov/{povId}/Client', [PovController::class, 'getClient']);
+Route::get('pov/{povId}/Appliance', [PovController::class, 'getAppliance']);
+
+
 
 
 

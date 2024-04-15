@@ -72,5 +72,18 @@ class ClientController extends Controller
             return response()->json(['error' => $client]);
         }
 
+        public function getContact($clientId)
+        {
+            $client = Client::findOrFail($clientId);
+
+    
+            if ($client) {
+                $contact = $client->contact;
+                return response()->json(['contact' => $contact]);
+            }
+    
+            return response()->json(['error' => $appliance]);
+        }
+
     //
 }
