@@ -37,6 +37,10 @@ Route::get('appliance/{userId}/type', [ApplianceController::class, 'getAppliance
 Route::get('Client/{clientId}/Contact', [ClientController::class, 'getClientContact']);
 Route::get('pov/{povId}/Client', [PovController::class, 'getClient']);
 Route::get('pov/{povId}/Appliance', [PovController::class, 'getAppliance']);
+Route::get('appliance/{id}/pov', [ApplianceController::class, 'getPov']);
+Route::get('appliance/{id}/client', [ApplianceController::class, 'getClient']);
+
+
 
 
 

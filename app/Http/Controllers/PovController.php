@@ -95,4 +95,8 @@ class PovController extends Controller
         return response()->json(['error' => $appliance]);
     }
     
+   
+
+
+
 }

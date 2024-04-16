@@ -19,7 +19,7 @@ class ApplianceController extends Controller
         $request->validate([
             'libelle'=>'required',
             'DBID' => 'required',
-            'disponible' => 'required',
+          
             'references' => 'required',
             'type_id' => 'required',
 
@@ -79,6 +79,47 @@ class ApplianceController extends Controller
     
             return response()->json(['error' => $appliance]);
         }
+
+
+        public function getPov($id)
+        {
+            $appliance = Appliance::findOrFail($id);
+            
+            // Check if POV exists for the appliance
+            if ($appliance->pov) {
+                return $appliance->pov;
+            } else {
+                return response()->json(['message' => 'POV not found for this appliance'], 404);
+            }
+        }
+        public function getClient($id)
+        {
+            $appliance = Appliance::findOrFail($id);
+            $pov = $appliance->pov;
+            
+            if ($pov) {
+$client  = $pov->client;
+$contact = $client->contact;
+$data = [
+    'nom' =>$contact->nom,
+    'prenom' =>$contact->prenom,
+    'activity' => $contact->prenom,
+    'secteur' => $client->secteur,
+    'fonction' =>$contact->fonction,
+    'email' => $contact->email,
+    'telephone' => $contact->telephone,
+];
+                
+                return $pov->client;
+            } else {
+                return response()->json(['message' => 'POV not found for this appliance'], 404);
+            }
+
+
+        }
+
+
+        
 
 
 

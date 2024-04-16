@@ -16,6 +16,16 @@ class Appliance extends Model
     {
         return $this->belongsTo(Type::class, 'type_id');
     }
+    public function pov()
+    {
+        return $this->hasOne(Pov::class,'id_appliance');
+    }
+
+
+    
+
+
+
 
 
     use HasFactory;
