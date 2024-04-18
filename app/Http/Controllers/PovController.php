@@ -9,7 +9,10 @@ class PovController extends Controller
 {
     public function index()
     {
-        return Pov::all();
+       return Pov::select('*')  ->orderBy('id', 'desc')
+       ->get();;;
+       
+
     }
    
     public function store(Request $request)
@@ -41,25 +44,35 @@ class PovController extends Controller
     }
 
     public function update(Request $request, Pov $pov)
-    {
-        $request->validate([
-            'id_appliance' => 'required',
-            'id_client' => 'required',
-            'dateDebut' => 'required',
-            'dateFin' => 'required',
-            'description' => 'required',
-            'compteManager' => 'required',
-            'ingenieurCybersecurity' => 'required',
-            'analyseCybersecurity' => 'required',
-            'libelle_pov' => 'required',
-        ]);
+{
+    $request->validate([
+        'id_appliance' => 'sometimes|required',
+        'id_client' => 'sometimes|required',
+        'dateDebut' => 'sometimes|required',
+        'dateFin' => 'sometimes|required',
+        'description' => 'sometimes|required',
+        'compteManager' => 'sometimes|required',
+        'ingenieurCybersecurity' => 'sometimes|required',
+        'analyseCybersecurity' => 'sometimes|required',
+        'libelle_pov' => 'sometimes|required',
+    ]);
 
-        $pov->update($request->all());
+    $pov->update($request->only([
+        'id_appliance',
+        'id_client',
+        'dateDebut',
+        'dateFin',
+        'description',
+        'compteManager',
+        'ingenieurCybersecurity',
+        'analyseCybersecurity',
+        'libelle_pov',
+    ]));
 
-        return response()->json([
-            'message' => 'Pov updated successfully'
-        ]);
-    }
+    return response()->json([
+        'message' => 'Pov updated successfully'
+    ]);
+}
 
     public function destroy(Pov $pov)
     {

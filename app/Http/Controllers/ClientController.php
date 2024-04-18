@@ -10,8 +10,9 @@ class ClientController extends Controller
 {
     public function index()
     {
-        return Client::select('id', 'libelle',	'secteur',	'activite')->get();
-
+        return Client::select('id', 'libelle', 'secteur', 'activite')
+                     ->orderBy('id', 'desc')
+                     ->get();
     }
     public function store(Request $request)
     {

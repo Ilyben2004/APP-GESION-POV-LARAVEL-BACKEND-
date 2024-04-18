@@ -10,7 +10,9 @@ class ApplianceController extends Controller
 {
     public function index()
     {
-        return Appliance::select('id', 'libelle',	'DBID','disponible','references','type_id')->get();
+        return Appliance::select('id', 'libelle',	'DBID','disponible','references','type_id')
+        ->orderBy('id', 'desc')
+        ->get();;
     }
    
 
@@ -103,15 +105,15 @@ $contact = $client->contact;
 $data = [
     'nom' =>$contact->nom,
     'prenom' =>$contact->prenom,
-    'activity' => $contact->prenom,
+    'activity' => $client->activite,
     'secteur' => $client->secteur,
     'fonction' =>$contact->fonction,
     'email' => $contact->email,
     'telephone' => $contact->telephone,
 ];
                 
-                return $pov->client;
-            } else {
+return response()->json($data);
+} else {
                 return response()->json(['message' => 'POV not found for this appliance'], 404);
             }
 
