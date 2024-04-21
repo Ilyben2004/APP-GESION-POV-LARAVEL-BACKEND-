@@ -67,24 +67,18 @@ class ClientController extends Controller
     
             if ($client) {
                 $contact = $client->contact;
-                return response()->json(['contact' => $contact]);
+                if($contact){
+                    return response()->json(['contact' => $contact]);
+                }
+                else{
+                    return 0;
+                }
             }
     
             return response()->json(['error' => $client]);
         }
 
-        public function getContact($clientId)
-        {
-            $client = Client::findOrFail($clientId);
-
-    
-            if ($client) {
-                $contact = $client->contact;
-                return response()->json(['contact' => $contact]);
-            }
-    
-            return response()->json(['error' => $appliance]);
-        }
+        
 
     //
 }
