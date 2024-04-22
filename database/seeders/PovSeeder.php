@@ -2,10 +2,13 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Pov;
-
+use App\Models\Appliance;
+use App\Models\Client;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\PovController;
+use Illuminate\Http\Request;
 
 class PovSeeder extends Seeder
 {
@@ -16,11 +19,26 @@ class PovSeeder extends Seeder
      */
     public function run()
     {
-        // Generate and insert 50 rows of sample data
-        for ($i = 0; $i < 50; $i++) {
-            Pov::create([
-                'id_appliance' => rand(1, 50), // Replace 10 with the maximum ID of your appliance table
-                'id_client' => rand(1, 50), // Replace 10 with the maximum ID of your client table
+        // Retrieve all IDs from the appliance and client tables
+        $applianceIds = Appliance::pluck('id')->toArray();
+        $clientIds = Client::pluck('id')->toArray();
+
+        // Shuffle the arrays to randomize the order
+        shuffle($applianceIds);
+        shuffle($clientIds);
+
+        // Determine the number of entries to create
+        $numEntries = min(count($applianceIds), count($clientIds), 50);
+
+        // Instantiate the PovController
+        $povController = new PovController();
+
+        // Create the specified number of Pov entries
+        for ($i = 0; $i < $numEntries; $i++) {
+            // Define the data for a single Pov entry
+            $data = [
+                'id_appliance' => $applianceIds[$i],
+                'id_client' => $clientIds[$i],
                 'dateDebut' => now(),
                 'dateFin' => now()->addDays(rand(1, 30)),
                 'description' => 'Sample description ' . ($i + 1),
@@ -28,7 +46,13 @@ class PovSeeder extends Seeder
                 'ingenieurCybersecurity' => 'Sample cybersecurity engineer ' . ($i + 1),
                 'analyseCybersecurity' => 'Sample cybersecurity analysis ' . ($i + 1),
                 'libelle_pov' => 'Sample POV ' . ($i + 1),
-            ]);
+            ];
+
+            // Create a new Request object with the data
+            $request = new Request([], [], [], [], [], [], $data);
+
+            // Call the store method in the PovController
+            $povController->store($request);
         }
     }
 }

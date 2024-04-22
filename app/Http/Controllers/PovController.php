@@ -4,9 +4,37 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pov;
+use App\Models\Client;
+use App\Models\Appliance;
+use App\Models\Backup;
+
 
 class PovController extends Controller
 {
+    public function createBackup(Request $request)
+    {
+      
+
+        $idClient = $request->input('id_client');
+        $client = Client::findOrFail($idClient);
+        $idappliance = $request->input('id_appliance');
+        $appliance = Appliance::findOrFail($idappliance);
+        $request->merge([
+            'client' => $client->libelle,
+            'libelle_appliance' => $appliance->libelle,
+        ]);
+
+    $request->except(['id_client', 'id_appliance']);
+
+
+
+
+
+    $backup = Backup::create($request->all());
+    
+    // Return the newly created backup entry as a JSON response
+    return response()->json($backup, 201);
+    }
     public function index()
     {
        return Pov::select('*')  ->orderBy('id', 'desc')
@@ -19,7 +47,7 @@ class PovController extends Controller
     {
         $request->validate([
             'id_appliance' => 'required',
-            'id_pov' => 'required',
+            'id_client' => 'required',
             'dateDebut' => 'required',
             'dateFin' => 'required',
             'description' => 'required',
@@ -30,6 +58,7 @@ class PovController extends Controller
         ]);
 
         Pov::create($request->all());
+       $this->createBackup($request);
         
         return response()->json([
             'message' => 'Pov added successfully'
@@ -68,6 +97,8 @@ class PovController extends Controller
         'analyseCybersecurity',
         'libelle_pov',
     ]));
+    $this->createBackup($request);
+
 
     return response()->json([
         'message' => 'Pov updated successfully'

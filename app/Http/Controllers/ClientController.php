@@ -12,8 +12,19 @@ class ClientController extends Controller
     {
         return Client::select('id', 'libelle', 'secteur', 'activite')
                      ->orderBy('id', 'desc')
+        
                      ->get();
     }
+    public function noContact()
+{
+    return Client::select('clients.id', 'clients.libelle', 'clients.secteur', 'clients.activite')
+        ->leftJoin('contacts', 'clients.id', '=', 'contacts.id_client')
+        ->whereNull('contacts.id_client')
+        ->orderBy('clients.id', 'desc')
+        ->get();
+}
+
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -73,9 +84,13 @@ class ClientController extends Controller
                 else{
                     return 0;
                 }
+               
+            }
+            else{
+                return 0 ;
             }
     
-            return response()->json(['error' => $client]);
+            return 0;
         }
 
         
